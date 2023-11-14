@@ -10,11 +10,22 @@ app.logger.setLevel(logging.DEBUG)
 # Set up Stanford CoreNLP
 nlp = StanfordCoreNLP('http://localhost', port=9000)
 
+"""
+Define a route for the root URL ("/") of the application. When this route is accessed, 
+print a message indicating that the index route has been accessed. 
+Then, render the "index.html" template and pass a variable named "result" with a value of None to the template.
+"""
+
 @app.route('/')
 def index():
     print("Index route accessed.")
-    return render_template('index.html')
+    return render_template('index.html', result=None)
 
+# app route for processing text
+    """
+    This is a Flask route that processes text input sent via a POST request.
+    It expects the text to be sent as a form field named 'text'.
+    """
 @app.route('/process', methods=['POST'])
 def process_text():
     user_input = request.form['text']
@@ -22,7 +33,6 @@ def process_text():
     if not user_input or '.' not in user_input:
         return jsonify({'error': 'Please enter at least one sentence.'})
     
-    print(f"Processing text: {user_input}")
     app.logger.info(f"Processing text: {user_input}")
 
     # Process text using Stanford CoreNLP
@@ -32,22 +42,8 @@ def process_text():
     })
 
     app.logger.info(f"Result: {result}")
-    return jsonify({'result': result})
-
-# API Endpoint for processing text
-@app.route('/api/process', methods=['POST'])
-def api_process_text():
-    data = request.get_json()
-
-    if 'text' not in data or not data['text'] or '.' not in data['text']:
-        return jsonify({'error': 'Invalid input data.'})
-
-    # Process text using Stanford CoreNLP
-    result = nlp.annotate(data['text'], properties={
-        'annotators': 'tokenize,ssplit,pos',
-        'outputFormat': 'json'
-    })
-
+    
+    # Return result as JSON
     return jsonify({'result': result})
 
 if __name__ == '__main__':

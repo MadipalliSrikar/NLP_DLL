@@ -1,0 +1,1 @@
+This is an application which uses stanfordnlp and performs natural langauge processing on a text eneterd in a text area.
