@@ -8,7 +8,7 @@ CORS(app)
 app.logger.setLevel(logging.DEBUG)
 
 # Set up Stanford CoreNLP
-nlp = StanfordCoreNLP('http://CoreNLP', port=9000)
+nlp = StanfordCoreNLP('http://corenlp', port=9000)
 
 """
 Define a route for the root URL ("/") of the application. When this route is accessed, 
