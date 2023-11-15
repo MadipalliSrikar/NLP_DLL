@@ -8,7 +8,7 @@ CORS(app)
 app.logger.setLevel(logging.DEBUG)
 
 # Set up Stanford CoreNLP
-nlp = StanfordCoreNLP('http://localhost', port=9000)
+nlp = StanfordCoreNLP('http://CoreNLP', port=9000)
 
 """
 Define a route for the root URL ("/") of the application. When this route is accessed, 
@@ -47,4 +47,4 @@ def process_text():
     return jsonify({'result': result})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
